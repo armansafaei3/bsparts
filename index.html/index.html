@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="oJVrfjP_ntA83MdfbD6EfMjvkFnGSQFdty_8FgMy-wk" />
     <title>B\S PARTS - فروشگاه تخصصی لوازم یدکی خودروهای آلمانی</title>
     <meta name="description" content="فروش لوازم یدکی اصل BMW، مرسدس بنز و پورشه با گارانتی معتبر">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -2075,138 +2075,25 @@ ${SHOP_NAME}`;
             localStorage.setItem('bsparts_nextOrderId', nextOrderId.toString());
         }
 
-        // Search functionality
-        function searchProducts() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const searchInput = document.getElementById('searchInput');
-                if (!searchInput) return;
-                
-                const query = searchInput.value.toLowerCase();
-                if (query.length > 0) {
-                    showSearchSuggestions(query);
-                } else {
-                    hideSearchSuggestions();
-                }
-            }, 300);
-        }
+        // Product functions
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
 
-        function showSearchSuggestions(query) {
-            const suggestions = products.filter(product => 
-                product.name.toLowerCase().includes(query) ||
-                product.tags.some(tag => tag.toLowerCase().includes(query))
-            ).slice(0, 5);
-
-            const suggestionsDiv = document.getElementById('searchSuggestions');
-            
-            if (suggestions.length > 0) {
-                suggestionsDiv.innerHTML = suggestions.map(product => `
-                    <div onclick="selectSearchSuggestion('${product.name}')" class="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0">
-                        <div class="flex items-center space-x-3 space-x-reverse">
-                            <span class="text-lg">${product.image}</span>
-                            <div>
-                                <div class="font-medium text-sm">${product.name}</div>
-                                <div class="text-xs text-gray-500">${product.price.toLocaleString()} تومان</div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-                suggestionsDiv.classList.remove('hidden');
-            } else {
-                suggestionsDiv.innerHTML = '<div class="p-3 text-gray-500 text-sm">محصولی یافت نشد</div>';
-                suggestionsDiv.classList.remove('hidden');
-            }
-        }
-
-        function hideSearchSuggestions() {
-            document.getElementById('searchSuggestions').classList.add('hidden');
-        }
-
-        function selectSearchSuggestion(productName) {
-            document.getElementById('searchInput').value = productName;
-            hideSearchSuggestions();
-            performSearch();
-        }
-
-        function handleSearchEnter(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                performSearch();
-            }
-        }
-
-        function performSearch() {
-            const searchInput = document.getElementById('searchInput');
-            if (!searchInput) return;
-            
-            const query = searchInput.value.toLowerCase();
-            if (query) {
-                currentFilter = 'search';
-                showPage('home');
-                renderProducts();
-                hideSearchSuggestions();
-                scrollToProducts();
-            }
-        }
-
-        // Product filtering and sorting
-        function filterByBrand(brand) {
-            currentFilter = brand;
-            currentCategory = 'all';
-            displayedProducts = 8;
-            showPage('home');
-            renderProducts();
-            scrollToProducts();
-        }
-
-        function filterByCategory(brand, category) {
-            currentFilter = brand;
-            currentCategory = category;
-            displayedProducts = 8;
-            showPage('home');
-            renderProducts();
-            scrollToProducts();
-        }
-
-        function applyFilters() {
-            displayedProducts = 8;
-            renderProducts();
-        }
-
-        function clearFilters() {
-            document.getElementById('priceFilter').value = 'all';
-            document.getElementById('stockFilter').value = 'all';
-            document.getElementById('sortFilter').value = 'newest';
-            document.getElementById('searchInput').value = '';
-            currentFilter = 'all';
-            currentCategory = 'all';
-            displayedProducts = 8;
-            renderProducts();
-        }
-
-        function getFilteredProducts() {
             let filteredProducts = [...products];
-            const query = document.getElementById('searchInput').value.toLowerCase();
 
-            // Apply search filter
-            if (currentFilter === 'search' && query) {
-                filteredProducts = filteredProducts.filter(product => 
-                    product.name.toLowerCase().includes(query) ||
-                    product.description.toLowerCase().includes(query) ||
-                    product.tags.some(tag => tag.toLowerCase().includes(query))
-                );
-            } else if (currentFilter !== 'all') {
+            // Apply filters
+            if (currentFilter !== 'all') {
                 filteredProducts = filteredProducts.filter(product => product.brand === currentFilter);
             }
 
-            // Apply category filter
             if (currentCategory !== 'all') {
                 filteredProducts = filteredProducts.filter(product => product.category === currentCategory);
             }
 
             // Apply price filter
-            const priceFilter = document.getElementById('priceFilter')?.value || 'all';
-            if (priceFilter !== 'all') {
+            const priceFilter = document.getElementById('priceFilter')?.value;
+            if (priceFilter && priceFilter !== 'all') {
                 const [min, max] = priceFilter.split('-').map(Number);
                 filteredProducts = filteredProducts.filter(product => 
                     product.price >= min && product.price <= max
@@ -2214,111 +2101,92 @@ ${SHOP_NAME}`;
             }
 
             // Apply stock filter
-            const stockFilter = document.getElementById('stockFilter')?.value || 'all';
-            if (stockFilter === 'instock') {
-                filteredProducts = filteredProducts.filter(product => product.stock > 0);
-            } else if (stockFilter === 'outofstock') {
-                filteredProducts = filteredProducts.filter(product => product.stock === 0);
+            const stockFilter = document.getElementById('stockFilter')?.value;
+            if (stockFilter && stockFilter !== 'all') {
+                if (stockFilter === 'instock') {
+                    filteredProducts = filteredProducts.filter(product => product.stock > 0);
+                } else if (stockFilter === 'outofstock') {
+                    filteredProducts = filteredProducts.filter(product => product.stock === 0);
+                }
             }
 
             // Apply sorting
-            const sortFilter = document.getElementById('sortFilter')?.value || 'newest';
-            switch (sortFilter) {
-                case 'price-low':
-                    filteredProducts.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-high':
-                    filteredProducts.sort((a, b) => b.price - a.price);
-                    break;
-                case 'rating':
-                    filteredProducts.sort((a, b) => b.rating - a.rating);
-                    break;
-                case 'popular':
-                    filteredProducts.sort((a, b) => b.reviews - a.reviews);
-                    break;
-                default: // newest
-                    filteredProducts.sort((a, b) => b.id - a.id);
+            const sortFilter = document.getElementById('sortFilter')?.value;
+            if (sortFilter) {
+                switch (sortFilter) {
+                    case 'price-low':
+                        filteredProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-high':
+                        filteredProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'rating':
+                        filteredProducts.sort((a, b) => b.rating - a.rating);
+                        break;
+                    case 'popular':
+                        filteredProducts.sort((a, b) => (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0));
+                        break;
+                    default:
+                        filteredProducts.sort((a, b) => b.id - a.id);
+                }
             }
 
-            return filteredProducts;
-        }
-
-        // Product rendering
-        function renderProducts() {
-            const grid = document.getElementById('productsGrid');
-            if (!grid) {
-                console.log('❌ Products grid element not found');
-                return;
+            // Update products count
+            const countElement = document.getElementById('productsCount');
+            if (countElement) {
+                countElement.textContent = `نمایش ${filteredProducts.length} محصول`;
             }
-            
-            console.log('📦 Total products:', products.length);
-            const filteredProducts = getFilteredProducts();
-            console.log('🔍 Filtered products:', filteredProducts.length);
+
+            // Limit displayed products
             const productsToShow = filteredProducts.slice(0, displayedProducts);
-            
+
             grid.innerHTML = productsToShow.map(product => `
-                <div class="bg-white rounded-2xl shadow-sm border overflow-hidden product-card relative ${product.stock === 0 ? 'out-of-stock' : ''}">
-                    ${product.discount > 0 ? `<div class="discount-badge">${product.discount}% تخفیف</div>` : ''}
-                    ${product.isPopular ? '<div class="absolute top-2 left-2 bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded-full">محبوب</div>' : ''}
-                    
-                    <div class="p-4 md:p-6 text-center">
-                        <div class="mb-3 md:mb-4 text-3xl md:text-4xl cursor-pointer" onclick="showProductDetail(${product.id})">${product.image}</div>
-                        <h3 class="font-medium text-base md:text-lg mb-2 text-gray-900 cursor-pointer line-clamp-2" onclick="showProductDetail(${product.id})">${product.name}</h3>
-                        <p class="text-gray-600 text-xs md:text-sm mb-3 line-clamp-2">${product.description}</p>
-                        
-                        <!-- Rating -->
-                        <div class="flex items-center justify-center space-x-1 space-x-reverse mb-3">
-                            <div class="star-rating text-sm">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</div>
-                            <span class="text-xs text-gray-500">(${product.reviews})</span>
-                        </div>
-                        
-                        <!-- Price -->
-                        <div class="space-y-1 md:space-y-2 mb-3 md:mb-4">
-                            ${product.discount > 0 ? `<div class="text-xs md:text-sm text-gray-500 line-through">${product.originalPrice.toLocaleString()} تومان</div>` : ''}
-                            <div class="text-base md:text-lg font-semibold text-gray-900">
-                                ${product.price.toLocaleString()} تومان
+                <div class="product-card bg-white rounded-2xl shadow-sm border hover:shadow-lg transition-all duration-300 ${product.stock === 0 ? 'out-of-stock' : ''}">
+                    <div class="relative">
+                        ${product.discount > 0 ? `<div class="discount-badge">${product.discount}%</div>` : ''}
+                        <div class="p-6 text-center">
+                            <div class="text-4xl mb-4">${product.image}</div>
+                            <h3 class="font-medium text-gray-900 mb-2 line-clamp-2 h-12">${product.name}</h3>
+                            <div class="flex items-center justify-center mb-2">
+                                <div class="star-rating text-sm">
+                                    ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                                </div>
+                                <span class="text-xs text-gray-500 mr-1">(${product.reviews})</span>
+                            </div>
+                            <div class="mb-4">
+                                ${product.originalPrice > product.price ? 
+                                    `<div class="text-sm text-gray-400 line-through">${product.originalPrice.toLocaleString()} تومان</div>` : ''
+                                }
+                                <div class="text-lg font-semibold text-gray-900">${product.price.toLocaleString()} تومان</div>
+                            </div>
+                            <div class="text-xs text-gray-500 mb-4">
+                                ${product.stock > 0 ? `موجود (${product.stock})` : 'ناموجود'}
                             </div>
                         </div>
-                        
-                        <!-- Stock Status -->
-                        <div class="mb-3 md:mb-4">
-                            ${product.stock > 0 ? 
-                                `<span class="text-green-600 text-xs md:text-sm">موجود (${product.stock} عدد)</span>` : 
-                                '<span class="text-red-600 text-xs md:text-sm">ناموجود</span>'
-                            }
+                    </div>
+                    <div class="p-4 pt-0 space-y-2">
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button onclick="addToCart(${product.id})" 
+                                    class="flex-1 apple-button text-white py-2 px-4 rounded-xl text-sm font-medium ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                    ${product.stock === 0 ? 'disabled' : ''}>
+                                افزودن به سبد
+                            </button>
+                            <button onclick="toggleWishlist(${product.id})" 
+                                    class="p-2 border border-gray-200 rounded-xl hover:bg-gray-50 ${wishlist.includes(product.id) ? 'text-red-500' : 'text-gray-400'}">
+                                ❤️
+                            </button>
                         </div>
-                        
-                        <!-- Action Buttons -->
-                        <div class="space-y-2">
-                            <div class="flex space-x-2 space-x-reverse">
-                                <button onclick="addToCart(${product.id})" 
-                                        class="flex-1 apple-button text-white px-3 md:px-4 py-2 rounded-xl font-medium text-xs md:text-sm ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
-                                        ${product.stock === 0 ? 'disabled' : ''}>
-                                    ${product.stock === 0 ? 'ناموجود' : 'افزودن به سبد'}
-                                </button>
-                                <button onclick="toggleWishlist(${product.id})" 
-                                        class="px-2 md:px-3 py-2 border border-gray-300 rounded-xl hover:bg-gray-50 ${wishlist.includes(product.id) ? 'bg-red-50 text-red-600' : ''}">
-                                    ${wishlist.includes(product.id) ? '❤️' : '🤍'}
-                                </button>
-                            </div>
-                            <div class="flex space-x-2 space-x-reverse text-xs md:text-sm">
-                                <button onclick="addToCompare(${product.id})" class="flex-1 text-gray-600 hover:text-gray-900 hidden md:block">
-                                    مقایسه
-                                </button>
-                                <button onclick="showProductDetail(${product.id})" class="flex-1 text-gray-600 hover:text-gray-900">
-                                    جزئیات
-                                </button>
-                            </div>
+                        <div class="flex space-x-2 space-x-reverse text-xs">
+                            <button onclick="showProductDetail(${product.id})" class="flex-1 text-gray-600 hover:text-gray-900 py-1">
+                                جزئیات
+                            </button>
+                            <button onclick="addToCompare(${product.id})" class="flex-1 text-gray-600 hover:text-gray-900 py-1">
+                                مقایسه
+                            </button>
                         </div>
                     </div>
                 </div>
             `).join('');
-
-            // Update products count
-            const productsCountEl = document.getElementById('productsCount');
-            if (productsCountEl) {
-                productsCountEl.textContent = `نمایش ${productsToShow.length} از ${filteredProducts.length} محصول`;
-            }
 
             // Show/hide load more button
             const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -2336,14 +2204,195 @@ ${SHOP_NAME}`;
             renderProducts();
         }
 
-        function scrollToProducts() {
-            const productsSection = document.getElementById('productsSection');
-            if (productsSection) {
-                productsSection.scrollIntoView({ behavior: 'smooth' });
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || product.stock === 0) {
+                showNotification('محصول موجود نیست');
+                return;
+            }
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                if (existingItem.quantity < product.stock) {
+                    existingItem.quantity++;
+                    showNotification('تعداد محصول در سبد افزایش یافت');
+                } else {
+                    showNotification('موجودی کافی نیست');
+                    return;
+                }
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+                showNotification('محصول به سبد خرید اضافه شد');
+            }
+
+            updateCartBadge();
+            updateCartDisplay();
+            saveDataToStorage();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartBadge();
+            updateCartDisplay();
+            saveDataToStorage();
+            showNotification('محصول از سبد خرید حذف شد');
+        }
+
+        function updateCartQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            const product = products.find(p => p.id === productId);
+            
+            if (!item || !product) return;
+
+            const newQuantity = item.quantity + change;
+            
+            if (newQuantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            if (newQuantity > product.stock) {
+                showNotification('موجودی کافی نیست');
+                return;
+            }
+
+            item.quantity = newQuantity;
+            updateCartBadge();
+            updateCartDisplay();
+            saveDataToStorage();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (badge) {
+                badge.textContent = totalItems;
+                badge.style.display = totalItems > 0 ? 'flex' : 'none';
             }
         }
 
-        // Product detail modal
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartShipping = document.getElementById('cartShipping');
+            const cartTotal = document.getElementById('cartTotal');
+
+            if (!cartItems) return;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="text-center text-gray-500 py-8">سبد خرید شما خالی است</div>';
+                if (cartSubtotal) cartSubtotal.textContent = '0 تومان';
+                if (cartShipping) cartShipping.textContent = 'رایگان';
+                if (cartTotal) cartTotal.textContent = '0 تومان';
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal >= 5000000 ? 0 : 200000;
+            const total = subtotal + shipping;
+
+            cartItems.innerHTML = cart.map(item => `
+                <div class="flex items-center space-x-4 space-x-reverse py-4 border-b border-gray-100">
+                    <div class="text-2xl">${item.image}</div>
+                    <div class="flex-1">
+                        <h4 class="font-medium text-sm">${item.name}</h4>
+                        <p class="text-gray-600 text-xs">${item.price.toLocaleString()} تومان</p>
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <button onclick="updateCartQuantity(${item.id}, -1)" class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm">-</button>
+                        <span class="text-sm font-medium w-8 text-center">${item.quantity}</span>
+                        <button onclick="updateCartQuantity(${item.id}, 1)" class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm">+</button>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-sm">✕</button>
+                </div>
+            `).join('');
+
+            if (cartSubtotal) cartSubtotal.textContent = subtotal.toLocaleString() + ' تومان';
+            if (cartShipping) cartShipping.textContent = shipping === 0 ? 'رایگان' : shipping.toLocaleString() + ' تومان';
+            if (cartTotal) cartTotal.textContent = total.toLocaleString() + ' تومان';
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('overlay');
+            
+            if (!sidebar || !overlay) return;
+
+            const isOpen = !sidebar.classList.contains('translate-x-full');
+            
+            if (isOpen) {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            } else {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                updateCartDisplay();
+            }
+        }
+
+        // Wishlist functions
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showNotification('محصول از لیست علاقه‌مندی‌ها حذف شد');
+            } else {
+                wishlist.push(productId);
+                showNotification('محصول به لیست علاقه‌مندی‌ها اضافه شد');
+            }
+            
+            updateWishlistBadge();
+            renderProducts(); // Update heart icons
+            saveDataToStorage();
+        }
+
+        function updateWishlistBadge() {
+            const badge = document.getElementById('wishlistBadge');
+            if (badge) {
+                badge.textContent = wishlist.length;
+                badge.style.display = wishlist.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function showWishlist() {
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+            
+            document.getElementById('wishlistContent').innerHTML = wishlistProducts.length > 0 ? 
+                wishlistProducts.map(product => `
+                    <div class="flex items-center space-x-4 space-x-reverse py-4 border-b">
+                        <div class="text-2xl">${product.image}</div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">${product.name}</h4>
+                            <p class="text-gray-600 text-sm">${product.price.toLocaleString()} تومان</p>
+                        </div>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button onclick="addToCart(${product.id})" class="apple-button text-white px-3 py-1 rounded text-sm">
+                                افزودن به سبد
+                            </button>
+                            <button onclick="toggleWishlist(${product.id})" class="text-red-500 hover:text-red-700">
+                                حذف
+                            </button>
+                        </div>
+                    </div>
+                `).join('') : 
+                '<p class="text-gray-500 text-center py-8">لیست علاقه‌مندی‌ها خالی است</p>';
+
+            document.getElementById('wishlistModal').classList.remove('hidden');
+            document.getElementById('wishlistModal').classList.add('flex');
+        }
+
+        function closeWishlist() {
+            document.getElementById('wishlistModal').classList.add('hidden');
+            document.getElementById('wishlistModal').classList.remove('flex');
+        }
+
+        // Product detail functions
         function showProductDetail(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -2353,96 +2402,53 @@ ${SHOP_NAME}`;
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="text-center">
                         <div class="text-8xl mb-4">${product.image}</div>
-                        <div class="space-y-2">
-                            ${product.discount > 0 ? `<div class="text-lg text-gray-500 line-through">${product.originalPrice.toLocaleString()} تومان</div>` : ''}
-                            <div class="text-2xl font-semibold text-gray-900">${product.price.toLocaleString()} تومان</div>
-                            ${product.discount > 0 ? `<div class="text-green-600 font-medium">${product.discount}% تخفیف</div>` : ''}
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="star-rating">
+                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            </div>
+                            <span class="text-sm text-gray-500 mr-2">${product.rating} (${product.reviews} نظر)</span>
                         </div>
                     </div>
                     
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="font-semibold mb-2">توضیحات</h4>
-                            <p class="text-gray-600">${product.description}</p>
-                        </div>
+                    <div>
+                        <h2 class="text-2xl font-semibold mb-4">${product.name}</h2>
+                        <p class="text-gray-600 mb-6">${product.description}</p>
                         
-                        <div>
-                            <h4 class="font-semibold mb-2">امتیاز و نظرات</h4>
-                            <div class="flex items-center space-x-2 space-x-reverse">
-                                <div class="star-rating text-lg">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</div>
-                                <span class="text-gray-600">${product.rating} از 5</span>
-                                <span class="text-gray-500">(${product.reviews} نظر)</span>
+                        <div class="mb-6">
+                            ${product.originalPrice > product.price ? 
+                                `<div class="text-lg text-gray-400 line-through mb-1">${product.originalPrice.toLocaleString()} تومان</div>` : ''
+                            }
+                            <div class="text-3xl font-bold text-blue-600">${product.price.toLocaleString()} تومان</div>
+                            ${product.discount > 0 ? `<div class="text-sm text-green-600">تخفیف ${product.discount}%</div>` : ''}
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${product.stock > 0 ? `موجود (${product.stock} عدد)` : 'ناموجود'}
                             </div>
                         </div>
-                        
-                        <div>
-                            <h4 class="font-semibold mb-2">مشخصات فنی</h4>
-                            <div class="space-y-2">
-                                ${Object.entries(product.specifications).map(([key, value]) => `
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">${key}:</span>
-                                        <span class="font-medium">${value}</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h4 class="font-semibold mb-2">موجودی</h4>
-                            <div class="text-lg ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}">
-                                ${product.stock > 0 ? `${product.stock} عدد موجود` : 'ناموجود'}
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-3">
-                            <button onclick="addToCart(${product.id}); closeProductDetail();" 
-                                    class="w-full apple-button text-white py-3 rounded-xl font-medium ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
-                                    ${product.stock === 0 ? 'disabled' : ''}>
-                                ${product.stock === 0 ? 'ناموجود' : 'افزودن به سبد خرید'}
-                            </button>
-                            <div class="flex space-x-2 space-x-reverse">
-                                <button onclick="toggleWishlist(${product.id})" 
-                                        class="flex-1 px-4 py-2 border border-gray-300 rounded-xl hover:bg-gray-50">
-                                    ${wishlist.includes(product.id) ? 'حذف از علاقه‌مندی‌ها' : 'افزودن به علاقه‌مندی‌ها'}
-                                </button>
-                                <button onclick="addToCompare(${product.id})" 
-                                        class="flex-1 px-4 py-2 border border-gray-300 rounded-xl hover:bg-gray-50">
-                                    افزودن به مقایسه
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Reviews Section -->
-                <div class="mt-8 border-t pt-8">
-                    <h4 class="font-semibold mb-4">نظرات کاربران</h4>
-                    <div class="space-y-4">
-                        <div class="bg-gray-50 p-4 rounded-xl">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="font-medium">علی محمدی</div>
-                                <div class="star-rating text-sm">★★★★★</div>
-                            </div>
-                            <p class="text-gray-600 text-sm">کیفیت عالی و ارسال سریع. پیشنهاد می‌کنم.</p>
-                        </div>
-                        
-                        ${currentUser ? `
-                            <div class="border-t pt-4">
-                                <h5 class="font-medium mb-2">نظر شما</h5>
-                                <div class="space-y-3">
-                                    <div class="flex items-center space-x-2 space-x-reverse">
-                                        <span class="text-sm">امتیاز:</span>
-                                        <div class="flex space-x-1 space-x-reverse">
-                                            ${[1,2,3,4,5].map(star => `
-                                                <button onclick="setRating(${star})" class="text-lg hover:text-yellow-400" data-star="${star}">☆</button>
-                                            `).join('')}
-                                        </div>
-                                    </div>
-                                    <textarea placeholder="نظر شما..." class="w-full px-3 py-2 border border-gray-300 rounded-lg" rows="3"></textarea>
-                                    <button class="apple-button text-white px-4 py-2 rounded-lg">ثبت نظر</button>
+
+                        <div class="space-y-4 mb-6">
+                            <h3 class="font-semibold">مشخصات فنی:</h3>
+                            ${Object.entries(product.specifications || {}).map(([key, value]) => `
+                                <div class="flex justify-between py-2 border-b border-gray-100">
+                                    <span class="text-gray-600">${key}:</span>
+                                    <span class="font-medium">${value}</span>
                                 </div>
-                            </div>
-                        ` : ''}
+                            `).join('')}
+                        </div>
+
+                        <div class="flex space-x-4 space-x-reverse">
+                            <button onclick="addToCart(${product.id}); closeProductDetail();" 
+                                    class="flex-1 apple-button text-white py-3 rounded-xl font-medium ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                    ${product.stock === 0 ? 'disabled' : ''}>
+                                افزودن به سبد خرید
+                            </button>
+                            <button onclick="toggleWishlist(${product.id})" 
+                                    class="px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 ${wishlist.includes(product.id) ? 'text-red-500' : 'text-gray-600'}">
+                                ❤️
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
@@ -2456,182 +2462,10 @@ ${SHOP_NAME}`;
             document.getElementById('productDetailModal').classList.remove('flex');
         }
 
-        // Cart functionality
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product || product.stock === 0) {
-                showNotification('محصول موجود نیست');
-                return;
-            }
-
-            const existingItem = cart.find(item => item.id === productId);
-            
-            if (existingItem) {
-                if (existingItem.quantity < product.stock) {
-                    existingItem.quantity += 1;
-                    showNotification('تعداد محصول در سبد افزایش یافت');
-                } else {
-                    showNotification('موجودی کافی نیست');
-                    return;
-                }
-            } else {
-                cart.push({...product, quantity: 1});
-                showNotification('محصول به سبد خرید اضافه شد');
-            }
-            
-            updateCartBadge();
-            updateCartDisplay();
-            saveDataToStorage();
-        }
-
-        function updateCartBadge() {
-            const badge = document.getElementById('cartBadge');
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            badge.textContent = totalItems;
-        }
-
-        function toggleCart() {
-            const sidebar = document.getElementById('cartSidebar');
-            const overlay = document.getElementById('overlay');
-            
-            if (sidebar.classList.contains('translate-x-full')) {
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-                updateCartDisplay();
-            } else {
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-            }
-        }
-
-        function updateCartDisplay() {
-            const cartItems = document.getElementById('cartItems');
-            const cartSubtotal = document.getElementById('cartSubtotal');
-            const cartShipping = document.getElementById('cartShipping');
-            const cartTotal = document.getElementById('cartTotal');
-            
-            if (cart.length === 0) {
-                cartItems.innerHTML = '<div class="text-center text-gray-500 py-8">سبد خرید شما خالی است</div>';
-                cartSubtotal.textContent = '0 تومان';
-                cartShipping.textContent = 'رایگان';
-                cartTotal.textContent = '0 تومان';
-                return;
-            }
-            
-            cartItems.innerHTML = cart.map(item => `
-                <div class="flex items-center justify-between py-4 border-b">
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <span class="text-xl">${item.image}</span>
-                        <div>
-                            <h4 class="font-medium text-sm">${item.name}</h4>
-                            <p class="text-gray-600 text-xs">${item.price.toLocaleString()} تومان</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-2 space-x-reverse">
-                        <button onclick="changeQuantity(${item.id}, -1)" class="w-6 h-6 bg-gray-100 rounded text-sm hover:bg-gray-200">-</button>
-                        <span class="w-8 text-center">${item.quantity}</span>
-                        <button onclick="changeQuantity(${item.id}, 1)" class="w-6 h-6 bg-gray-100 rounded text-sm hover:bg-gray-200">+</button>
-                        <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 ml-2">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-            
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const shipping = subtotal >= 5000000 ? 0 : 200000;
-            const total = subtotal + shipping;
-            
-            cartSubtotal.textContent = subtotal.toLocaleString() + ' تومان';
-            cartShipping.textContent = shipping === 0 ? 'رایگان' : shipping.toLocaleString() + ' تومان';
-            cartTotal.textContent = total.toLocaleString() + ' تومان';
-        }
-
-        function changeQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            const product = products.find(p => p.id === productId);
-            
-            if (item && product) {
-                const newQuantity = item.quantity + change;
-                
-                if (newQuantity <= 0) {
-                    removeFromCart(productId);
-                } else if (newQuantity <= product.stock) {
-                    item.quantity = newQuantity;
-                    updateCartBadge();
-                    updateCartDisplay();
-                    saveDataToStorage();
-                } else {
-                    showNotification('موجودی کافی نیست');
-                }
-            }
-        }
-
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartBadge();
-            updateCartDisplay();
-            saveDataToStorage();
-            showNotification('محصول از سبد خرید حذف شد');
-        }
-
-        // Wishlist functionality
-        function toggleWishlist(productId) {
-            const index = wishlist.indexOf(productId);
-            
-            if (index > -1) {
-                wishlist.splice(index, 1);
-                showNotification('از علاقه‌مندی‌ها حذف شد');
-            } else {
-                wishlist.push(productId);
-                showNotification('به علاقه‌مندی‌ها اضافه شد');
-            }
-            
-            updateWishlistBadge();
-            renderProducts();
-            saveDataToStorage();
-        }
-
-        function updateWishlistBadge() {
-            document.getElementById('wishlistBadge').textContent = wishlist.length;
-        }
-
-        function showWishlist() {
-            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
-            
-            document.getElementById('wishlistContent').innerHTML = wishlistProducts.length > 0 ? 
-                wishlistProducts.map(product => `
-                    <div class="flex items-center justify-between p-4 border-b">
-                        <div class="flex items-center space-x-3 space-x-reverse">
-                            <span class="text-2xl">${product.image}</span>
-                            <div>
-                                <h4 class="font-medium">${product.name}</h4>
-                                <p class="text-gray-600 text-sm">${product.price.toLocaleString()} تومان</p>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2 space-x-reverse">
-                            <button onclick="addToCart(${product.id})" class="apple-button text-white px-3 py-1 rounded-lg text-sm">
-                                افزودن به سبد
-                            </button>
-                            <button onclick="toggleWishlist(${product.id})" class="text-red-500 hover:text-red-700">
-                                حذف
-                            </button>
-                        </div>
-                    </div>
-                `).join('') : 
-                '<div class="text-center text-gray-500 py-8">لیست علاقه‌مندی‌های شما خالی است</div>';
-
-            document.getElementById('wishlistModal').classList.remove('hidden');
-            document.getElementById('wishlistModal').classList.add('flex');
-        }
-
-        function closeWishlist() {
-            document.getElementById('wishlistModal').classList.add('hidden');
-            document.getElementById('wishlistModal').classList.remove('flex');
-        }
-
-        // Compare functionality
+        // Compare functions
         function addToCompare(productId) {
             if (compareList.includes(productId)) {
-                showNotification('محصول قبلاً به مقایسه اضافه شده');
+                showNotification('این محصول قبلاً به مقایسه اضافه شده');
                 return;
             }
             
@@ -2641,13 +2475,12 @@ ${SHOP_NAME}`;
             }
             
             compareList.push(productId);
-            showNotification('محصول به مقایسه اضافه شد');
+            showNotification('محصول به لیست مقایسه اضافه شد');
         }
 
         function showCompareProducts() {
             if (compareList.length === 0) {
-                document.getElementById('compareContent').innerHTML = 
-                    '<div class="text-center text-gray-500 py-8">هیچ محصولی برای مقایسه انتخاب نشده</div>';
+                document.getElementById('compareContent').innerHTML = '<p class="text-gray-500 text-center py-8">هیچ محصولی برای مقایسه انتخاب نشده</p>';
             } else {
                 const compareProducts = products.filter(p => compareList.includes(p.id));
                 
@@ -2658,12 +2491,10 @@ ${SHOP_NAME}`;
                                 <tr>
                                     <th class="text-right p-4">مشخصات</th>
                                     ${compareProducts.map(product => `
-                                        <th class="text-center p-4">
-                                            <div class="space-y-2">
-                                                <div class="text-2xl">${product.image}</div>
-                                                <div class="font-medium text-sm">${product.name}</div>
-                                                <button onclick="removeFromCompare(${product.id})" class="text-red-500 text-xs">حذف</button>
-                                            </div>
+                                        <th class="text-center p-4 min-w-48">
+                                            <div class="text-4xl mb-2">${product.image}</div>
+                                            <div class="font-medium text-sm">${product.name}</div>
+                                            <button onclick="removeFromCompare(${product.id})" class="text-red-500 text-xs mt-2">حذف</button>
                                         </th>
                                     `).join('')}
                                 </tr>
@@ -2676,28 +2507,30 @@ ${SHOP_NAME}`;
                                     `).join('')}
                                 </tr>
                                 <tr class="border-t">
+                                    <td class="p-4 font-medium">امتیاز</td>
+                                    ${compareProducts.map(product => `
+                                        <td class="p-4 text-center">${product.rating} ⭐</td>
+                                    `).join('')}
+                                </tr>
+                                <tr class="border-t">
+                                    <td class="p-4 font-medium">موجودی</td>
+                                    ${compareProducts.map(product => `
+                                        <td class="p-4 text-center ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}">
+                                            ${product.stock > 0 ? 'موجود' : 'ناموجود'}
+                                        </td>
+                                    `).join('')}
+                                </tr>
+                                <tr class="border-t">
                                     <td class="p-4 font-medium">برند</td>
                                     ${compareProducts.map(product => `
                                         <td class="p-4 text-center">${product.brand}</td>
                                     `).join('')}
                                 </tr>
                                 <tr class="border-t">
-                                    <td class="p-4 font-medium">موجودی</td>
-                                    ${compareProducts.map(product => `
-                                        <td class="p-4 text-center">${product.stock > 0 ? product.stock + ' عدد' : 'ناموجود'}</td>
-                                    `).join('')}
-                                </tr>
-                                <tr class="border-t">
-                                    <td class="p-4 font-medium">امتیاز</td>
-                                    ${compareProducts.map(product => `
-                                        <td class="p-4 text-center">${product.rating}/5</td>
-                                    `).join('')}
-                                </tr>
-                                <tr class="border-t">
                                     <td class="p-4 font-medium">عملیات</td>
                                     ${compareProducts.map(product => `
                                         <td class="p-4 text-center">
-                                            <button onclick="addToCart(${product.id})" class="apple-button text-white px-3 py-1 rounded-lg text-sm mb-2 w-full">
+                                            <button onclick="addToCart(${product.id})" class="apple-button text-white px-3 py-1 rounded text-sm">
                                                 افزودن به سبد
                                             </button>
                                         </td>
@@ -2706,8 +2539,8 @@ ${SHOP_NAME}`;
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-4 text-center">
-                        <button onclick="clearCompareList()" class="px-4 py-2 text-gray-600 hover:text-gray-900">
+                    <div class="mt-6 text-center">
+                        <button onclick="clearCompareList()" class="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg">
                             پاک کردن همه
                         </button>
                     </div>
@@ -2717,6 +2550,158 @@ ${SHOP_NAME}`;
             document.getElementById('compareModal').classList.remove('hidden');
             document.getElementById('compareModal').classList.add('flex');
         }
+
+        // Filter functions
+        function filterByBrand(brand) {
+            currentFilter = brand;
+            currentCategory = 'all';
+            displayedProducts = 8;
+            renderProducts();
+            scrollToProducts();
+        }
+
+        function filterByCategory(brand, category) {
+            currentFilter = brand;
+            currentCategory = category;
+            displayedProducts = 8;
+            renderProducts();
+            scrollToProducts();
+        }
+
+        function applyFilters() {
+            displayedProducts = 8;
+            renderProducts();
+        }
+
+        function clearFilters() {
+            currentFilter = 'all';
+            currentCategory = 'all';
+            displayedProducts = 8;
+            
+            // Reset filter selects
+            const priceFilter = document.getElementById('priceFilter');
+            const stockFilter = document.getElementById('stockFilter');
+            const sortFilter = document.getElementById('sortFilter');
+            
+            if (priceFilter) priceFilter.value = 'all';
+            if (stockFilter) stockFilter.value = 'all';
+            if (sortFilter) sortFilter.value = 'newest';
+            
+            renderProducts();
+        }
+
+        function scrollToProducts() {
+            const productsSection = document.getElementById('productsSection');
+            if (productsSection) {
+                productsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Search functions
+        function searchProducts() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = document.getElementById('searchInput').value.trim().toLowerCase();
+                
+                if (query.length < 2) {
+                    hideSearchSuggestions();
+                    return;
+                }
+
+                const suggestions = products.filter(product => 
+                    product.name.toLowerCase().includes(query) ||
+                    product.brand.toLowerCase().includes(query) ||
+                    product.tags.some(tag => tag.toLowerCase().includes(query))
+                ).slice(0, 5);
+
+                showSearchSuggestions(suggestions, query);
+            }, 300);
+        }
+
+        function showSearchSuggestions(suggestions, query) {
+            const suggestionsDiv = document.getElementById('searchSuggestions');
+            if (!suggestionsDiv) return;
+
+            if (suggestions.length === 0) {
+                hideSearchSuggestions();
+                return;
+            }
+
+            suggestionsDiv.innerHTML = suggestions.map(product => `
+                <div class="p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0" onclick="selectProduct(${product.id})">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-lg">${product.image}</span>
+                        <div class="flex-1">
+                            <div class="font-medium text-sm">${highlightText(product.name, query)}</div>
+                            <div class="text-xs text-gray-500">${product.price.toLocaleString()} تومان</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            suggestionsDiv.classList.remove('hidden');
+        }
+
+        function hideSearchSuggestions() {
+            const suggestionsDiv = document.getElementById('searchSuggestions');
+            if (suggestionsDiv) {
+                suggestionsDiv.classList.add('hidden');
+            }
+        }
+
+        function highlightText(text, query) {
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
+        }
+
+        function selectProduct(productId) {
+            hideSearchSuggestions();
+            showProductDetail(productId);
+            document.getElementById('searchInput').value = '';
+        }
+
+        function handleSearchEnter(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            if (query.length < 2) {
+                showNotification('لطفاً حداقل 2 کاراکتر وارد کنید');
+                return;
+            }
+
+            // Filter products based on search query
+            const searchResults = products.filter(product => 
+                product.name.toLowerCase().includes(query) ||
+                product.brand.toLowerCase().includes(query) ||
+                product.description.toLowerCase().includes(query) ||
+                product.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+
+            // Update display
+            const grid = document.getElementById('productsGrid');
+            const countElement = document.getElementById('productsCount');
+            
+            if (searchResults.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">هیچ محصولی یافت نشد</div>';
+                if (countElement) countElement.textContent = 'هیچ محصولی یافت نشد';
+            } else {
+                // Temporarily override products for display
+                const originalProducts = [...products];
+                products.splice(0, products.length, ...searchResults);
+                renderProducts();
+                products.splice(0, products.length, ...originalProducts);
+                
+                if (countElement) countElement.textContent = `${searchResults.length} محصول یافت شد`;
+            }
+
+            hideSearchSuggestions();
+            scrollToProducts();
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d9371d8235c331',t:'MTc1NzYxNTIwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d9dc353008d2ca',t:'MTc1NzYyMTk2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
