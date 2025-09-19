@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="oJVrfjP_ntA83MdfbD6EfMjvkFnGSQFdty_8FgMy-wk" />
-    <meta name="enamad" content="77758272" />
+    <meta name="enamad" content="29564479" />
     <title>B\S PARTS - فروشگاه تخصصی لوازم یدکی خودروهای آلمانی</title>
     <meta name="description" content="فروش لوازم یدکی اصل BMW، مرسدس بنز و پورشه با گارانتی معتبر">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,7 +23,7 @@
     <style>
         body { 
             font-family: 'Vazir', sans-serif; 
-            background: #f5f5f7;
+            background-color: #f9fafb;
         }
         
         .product-card {
@@ -49,12 +49,12 @@
         }
         
         .apple-nav {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
         }
         
         .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.pinimg.com/originals/33/d4/8e/33d48e8a8f8a8f8a8f8a8f8a8f8a8f8a.jpg') center/cover;
         }
         
         .dropdown-menu {
@@ -282,12 +282,12 @@
             </div>
 
             <!-- Hero Banner -->
-            <section class="hero-section py-12 md:py-20">
+            <section class="bg-purple-600 py-12 md:py-20">
                 <div class="container mx-auto px-4 text-center">
                     <h1 class="text-3xl md:text-5xl font-light mb-4 md:mb-6 text-white">لوازم یدکی آلمانی</h1>
                     <p class="text-lg md:text-xl mb-8 md:mb-10 text-white opacity-90">کیفیت اصل، قیمت مناسب، گارانتی معتبر</p>
                     <div class="flex flex-col md:flex-row items-center justify-center space-y-3 md:space-y-0 md:space-x-4 md:space-x-reverse">
-                        <button onclick="scrollToProducts()" class="w-full md:w-auto apple-button text-white px-6 md:px-8 py-3 rounded-full font-medium">
+                        <button onclick="scrollToProducts()" class="w-full md:w-auto bg-blue-600 text-white px-6 md:px-8 py-3 rounded-full font-medium hover:bg-blue-700">
                             مشاهده محصولات
                         </button>
                         <button onclick="showCatalog()" class="w-full md:w-auto bg-white text-gray-900 px-6 md:px-8 py-3 rounded-full font-medium hover:bg-gray-100">
@@ -298,7 +298,7 @@
             </section>
 
             <!-- Products Grid -->
-            <section class="container mx-auto px-4 py-8 md:py-16" id="productsSection">
+            <section class="container mx-auto px-4 py-8 md:py-16 bg-white rounded-3xl mx-4 my-8" id="productsSection">
                 <div class="text-center mb-8 md:mb-12">
                     <h2 class="text-2xl md:text-3xl font-light mb-4 text-gray-900">محصولات</h2>
                     <p class="text-gray-600 text-sm md:text-base" id="productsCount">نمایش همه محصولات</p>
@@ -307,14 +307,14 @@
                     <!-- Products will be populated by JavaScript -->
                 </div>
                 <div class="text-center mt-6 md:mt-8">
-                    <button id="loadMoreBtn" onclick="loadMoreProducts()" class="apple-button text-white px-6 py-3 rounded-xl font-medium hidden">
+                    <button id="loadMoreBtn" onclick="loadMoreProducts()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 hidden">
                         نمایش بیشتر
                     </button>
                 </div>
             </section>
 
             <!-- About Us Section -->
-            <section class="bg-white py-12 md:py-20">
+            <section class="bg-white py-12 md:py-20 mx-4 rounded-3xl mb-8">
                 <div class="container mx-auto px-4">
                     <div class="text-center mb-12 md:mb-16">
                         <h2 class="text-2xl md:text-3xl font-light mb-4 md:mb-6 text-gray-900">درباره ما</h2>
@@ -355,7 +355,7 @@
 
         <!-- Contact Page -->
         <div id="contactPage" class="page-content">
-            <section class="container mx-auto px-4 py-16">
+            <section class="container mx-auto px-4 py-16 bg-white rounded-3xl mx-4 my-8">
                 <div class="max-w-4xl mx-auto">
                     <div class="text-center mb-12">
                         <h1 class="text-3xl md:text-4xl font-light mb-6 text-gray-900">تماس با ما</h1>
@@ -469,7 +469,7 @@
 
         <!-- Payment Page -->
         <div id="paymentPage" class="page-content">
-            <section class="container mx-auto px-4 py-16">
+            <section class="container mx-auto px-4 py-16 bg-white rounded-3xl mx-4 my-8">
                 <div class="max-w-4xl mx-auto">
                     <div class="text-center mb-12">
                         <h1 class="text-3xl md:text-4xl font-light mb-6 text-gray-900">شیوه‌های پرداخت</h1>
@@ -681,7 +681,7 @@
                     <button onclick="showRegisterForm()" class="flex-1 px-4 py-3 text-gray-600 rounded-xl hover:bg-gray-100">
                         ثبت نام
                     </button>
-                    <button onclick="loginUser()" class="flex-1 px-4 py-3 apple-button text-white rounded-xl">
+                    <button onclick="loginUser()" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
                         ورود
                     </button>
                 </div>
@@ -700,7 +700,7 @@
                     <button onclick="showLoginForm()" class="flex-1 px-4 py-3 text-gray-600 rounded-xl hover:bg-gray-100">
                         ورود
                     </button>
-                    <button onclick="registerUser()" class="flex-1 px-4 py-3 apple-button text-white rounded-xl">
+                    <button onclick="registerUser()" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
                         ثبت نام
                     </button>
                 </div>
@@ -800,14 +800,12 @@
                 <button onclick="closeAdminLogin()" class="flex-1 px-4 py-3 text-gray-600 rounded-xl hover:bg-gray-100">
                     انصراف
                 </button>
-                <button onclick="checkAdminPassword()" class="flex-1 px-4 py-3 apple-button text-white rounded-xl" id="adminLoginBtn">
+                <button onclick="checkAdminPassword()" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700" id="adminLoginBtn">
                     ورود
                 </button>
             </div>
             
-            <div class="mt-4 text-center text-sm text-gray-500">
-                رمز عبور پیش‌فرض: <code class="bg-gray-100 px-2 py-1 rounded">admin123</code>
-            </div>
+
         </div>
     </div>
 
@@ -878,7 +876,7 @@
                     <span id="cartTotal">0 تومان</span>
                 </div>
             </div>
-            <button onclick="proceedToCheckout()" class="w-full apple-button text-white py-3 rounded-xl font-medium">
+            <button onclick="proceedToCheckout()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700">
                 پرداخت
             </button>
         </div>
@@ -920,7 +918,7 @@
                 <button onclick="closeCheckout()" class="flex-1 px-4 py-3 text-gray-600 rounded-xl hover:bg-gray-100">
                     انصراف
                 </button>
-                <button onclick="processPayment()" class="flex-1 px-4 py-3 apple-button text-white rounded-xl">
+                <button onclick="processPayment()" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
                     پرداخت
                 </button>
             </div>
@@ -1909,8 +1907,8 @@
             {
                 id: 45,
                 name: "صافی پمپ بنزین BMW E60 - Mann",
-                price: 9000000,
-                originalPrice: 9000000,
+                price: 900000,
+                originalPrice: 900000,
                 image: "🔍",
                 brand: "BMW",
                 category: "engine",
@@ -2212,37 +2210,77 @@
         function showAdminProducts() {
             setActiveAdminTab('adminProductsBtn');
             document.getElementById('adminContent').innerHTML = `
-                <div class="bg-white rounded-lg p-6 mb-6">
-                    <h3 class="text-lg font-semibold mb-4">افزودن محصول جدید</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" id="newProductName" placeholder="نام محصول" class="px-3 py-2 border rounded-lg">
-                        <input type="number" id="newProductPrice" placeholder="قیمت" class="px-3 py-2 border rounded-lg">
-                        <input type="number" id="newProductOriginalPrice" placeholder="قیمت اصلی (اختیاری)" class="px-3 py-2 border rounded-lg">
-                        <input type="number" id="newProductStock" placeholder="موجودی" class="px-3 py-2 border rounded-lg">
-                        <select id="newProductBrand" class="px-3 py-2 border rounded-lg">
-                            <option value="BMW">BMW</option>
-                            <option value="Mercedes">Mercedes</option>
-                            <option value="Porsche">Porsche</option>
-                        </select>
-                        <select id="newProductCategory" class="px-3 py-2 border rounded-lg">
-                            <option value="engine">موتور</option>
-                            <option value="front_suspension">جلوبندی</option>
-                            <option value="gearbox">گیربکس</option>
-                            <option value="body">بدنه</option>
-                            <option value="brake">لنت و دیسک ترمز</option>
-                            <option value="suspension">سیستم تعلیق</option>
-                            <option value="electrical">سیستم برق</option>
-                        </select>
-                        <input type="text" id="newProductImage" placeholder="ایموجی محصول (🔧)" class="px-3 py-2 border rounded-lg">
-                        <textarea id="newProductDescription" placeholder="توضیحات محصول" class="px-3 py-2 border rounded-lg col-span-1 md:col-span-2"></textarea>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- افزودن محصول جدید -->
+                    <div class="bg-white rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">افزودن محصول جدید</h3>
+                        <div class="space-y-4">
+                            <input type="text" id="newProductName" placeholder="نام محصول" class="w-full px-3 py-2 border rounded-lg">
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="number" id="newProductPrice" placeholder="قیمت" class="px-3 py-2 border rounded-lg">
+                                <input type="number" id="newProductOriginalPrice" placeholder="قیمت اصلی (اختیاری)" class="px-3 py-2 border rounded-lg">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="number" id="newProductStock" placeholder="موجودی" class="px-3 py-2 border rounded-lg">
+                                <input type="text" id="newProductImage" placeholder="ایموجی محصول (🔧)" class="px-3 py-2 border rounded-lg">
+                            </div>
+                            <select id="newProductBrand" class="w-full px-3 py-2 border rounded-lg">
+                                <option value="BMW">BMW</option>
+                                <option value="Mercedes">Mercedes</option>
+                                <option value="Porsche">Porsche</option>
+                            </select>
+                            <select id="newProductCategory" class="w-full px-3 py-2 border rounded-lg">
+                                <option value="engine">موتور</option>
+                                <option value="front_suspension">جلوبندی</option>
+                                <option value="gearbox">گیربکس</option>
+                                <option value="body">بدنه</option>
+                                <option value="brake">لنت و دیسک ترمز</option>
+                                <option value="suspension">سیستم تعلیق</option>
+                                <option value="electrical">سیستم برق</option>
+                            </select>
+                            <textarea id="newProductDescription" placeholder="توضیحات کامل محصول" class="w-full px-3 py-2 border rounded-lg" rows="3"></textarea>
+                            <button onclick="addNewProduct()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                افزودن محصول
+                            </button>
+                        </div>
                     </div>
-                    <button onclick="addNewProduct()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                        افزودن محصول
-                    </button>
+
+                    <!-- وردپرس Integration -->
+                    <div class="bg-white rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">وردپرس Integration</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-medium mb-2">تنظیمات وردپرس</h4>
+                                <input type="text" id="wpPath" placeholder="مسیر وردپرس (مثال: ./wp2/)" class="w-full px-3 py-2 border rounded-lg mb-2" value="${localStorage.getItem('wp_path') || './wp2/'}">
+                                <input type="number" id="wpPostCount" placeholder="تعداد پست‌ها" class="w-full px-3 py-2 border rounded-lg mb-2" value="${localStorage.getItem('wp_post_count') || '5'}">
+                                <button onclick="saveWPSettings()" class="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                    ذخیره تنظیمات
+                                </button>
+                            </div>
+                            <button onclick="syncWithWordPress()" class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                                همگام‌سازی با وردپرس
+                            </button>
+                            <div class="text-xs text-gray-500">
+                                <p>• محصولات از پست‌های وردپرس وارد می‌شوند</p>
+                                <p>• عنوان پست = نام محصول</p>
+                                <p>• محتوای پست = توضیحات محصول</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded-lg p-6">
-                    <h3 class="text-lg font-semibold mb-4">لیست محصولات</h3>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold">لیست محصولات (${products.length} محصول)</h3>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button onclick="exportProducts()" class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">
+                                خروجی JSON
+                            </button>
+                            <button onclick="importProducts()" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                                ورودی JSON
+                            </button>
+                        </div>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
@@ -2251,19 +2289,37 @@
                                     <th class="text-right p-2">قیمت</th>
                                     <th class="text-right p-2">موجودی</th>
                                     <th class="text-right p-2">برند</th>
+                                    <th class="text-right p-2">توضیحات</th>
                                     <th class="text-right p-2">عملیات</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${products.map(product => `
-                                    <tr class="border-b">
-                                        <td class="p-2">${product.name}</td>
-                                        <td class="p-2">${product.price.toLocaleString()}</td>
-                                        <td class="p-2">${product.stock}</td>
-                                        <td class="p-2">${product.brand}</td>
+                                    <tr class="border-b hover:bg-gray-50">
                                         <td class="p-2">
-                                            <button onclick="editProduct(${product.id})" class="text-blue-600 hover:text-blue-800 ml-2">ویرایش</button>
-                                            <button onclick="deleteProduct(${product.id})" class="text-red-600 hover:text-red-800">حذف</button>
+                                            <div class="flex items-center space-x-2 space-x-reverse">
+                                                <span class="text-lg">${product.image}</span>
+                                                <span class="font-medium">${product.name}</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-2">${product.price.toLocaleString()}</td>
+                                        <td class="p-2">
+                                            <span class="px-2 py-1 rounded text-xs ${product.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                                ${product.stock}
+                                            </span>
+                                        </td>
+                                        <td class="p-2">${product.brand}</td>
+                                        <td class="p-2 max-w-xs">
+                                            <div class="truncate text-sm text-gray-600" title="${product.description}">
+                                                ${product.description}
+                                            </div>
+                                        </td>
+                                        <td class="p-2">
+                                            <div class="flex space-x-1 space-x-reverse">
+                                                <button onclick="editProduct(${product.id})" class="text-blue-600 hover:text-blue-800 text-sm">ویرایش</button>
+                                                <button onclick="duplicateProduct(${product.id})" class="text-green-600 hover:text-green-800 text-sm">کپی</button>
+                                                <button onclick="deleteProduct(${product.id})" class="text-red-600 hover:text-red-800 text-sm">حذف</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 `).join('')}
@@ -2996,6 +3052,189 @@ ${SHOP_NAME}`;
             showNotification('✅ ایمیل تست ارسال شد (شبیه‌سازی)');
         }
 
+        // WordPress Integration Functions
+        function saveWPSettings() {
+            const wpPath = document.getElementById('wpPath').value.trim();
+            const wpPostCount = document.getElementById('wpPostCount').value.trim();
+            
+            localStorage.setItem('wp_path', wpPath);
+            localStorage.setItem('wp_post_count', wpPostCount);
+            
+            showNotification('تنظیمات وردپرس ذخیره شد');
+        }
+
+        async function syncWithWordPress() {
+            const wpPath = localStorage.getItem('wp_path') || './wp2/';
+            const wpPostCount = localStorage.getItem('wp_post_count') || '5';
+            
+            try {
+                showNotification('در حال همگام‌سازی با وردپرس...');
+                
+                // شبیه‌سازی دریافت داده از وردپرس
+                // در پیاده‌سازی واقعی، این قسمت باید با سرور ارتباط برقرار کند
+                const wpProducts = await simulateWordPressSync(wpPath, wpPostCount);
+                
+                if (wpProducts && wpProducts.length > 0) {
+                    // اضافه کردن محصولات جدید از وردپرس
+                    wpProducts.forEach(wpProduct => {
+                        const newProduct = {
+                            id: nextProductId++,
+                            name: wpProduct.title,
+                            price: extractPriceFromContent(wpProduct.content) || 1000000,
+                            originalPrice: extractPriceFromContent(wpProduct.content) || 1000000,
+                            image: extractEmojiFromContent(wpProduct.content) || '🔧',
+                            brand: extractBrandFromContent(wpProduct.content) || 'BMW',
+                            category: extractCategoryFromContent(wpProduct.content) || 'engine',
+                            description: wpProduct.content.substring(0, 200) + '...',
+                            stock: Math.floor(Math.random() * 20) + 1,
+                            rating: 4.5,
+                            reviews: Math.floor(Math.random() * 20) + 1,
+                            specifications: {
+                                "برند": extractBrandFromContent(wpProduct.content) || 'BMW',
+                                "کشور سازنده": "آلمان",
+                                "گارانتی": "12 ماه"
+                            },
+                            tags: [wpProduct.title.split(' ')[0], 'وردپرس'],
+                            isPopular: Math.random() > 0.7,
+                            discount: 0
+                        };
+                        
+                        products.push(newProduct);
+                    });
+                    
+                    saveDataToStorage();
+                    renderProducts();
+                    showAdminProducts();
+                    showNotification(`${wpProducts.length} محصول از وردپرس اضافه شد`);
+                } else {
+                    showNotification('هیچ محصول جدیدی از وردپرس یافت نشد');
+                }
+                
+            } catch (error) {
+                console.error('خطا در همگام‌سازی وردپرس:', error);
+                showNotification('خطا در اتصال به وردپرس');
+            }
+        }
+
+        // شبیه‌سازی دریافت داده از وردپرس
+        async function simulateWordPressSync(wpPath, postCount) {
+            // در پیاده‌سازی واقعی، این تابع باید درخواست AJAX به فایل PHP بفرستد
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const sampleWPProducts = [
+                        {
+                            title: "فیلتر روغن BMW سری 3 - Mann Filter",
+                            content: "فیلتر روغن اصل آلمان برای BMW سری 3. این محصول با کیفیت بالا و گارانتی 12 ماهه ارائه می‌شود. قیمت: 850000 تومان. برند: BMW. دسته‌بندی: موتور. 🔩"
+                        },
+                        {
+                            title: "لنت ترمز جلو Mercedes C-Class - Brembo",
+                            content: "لنت ترمز جلو اصل ایتالیا برای مرسدس کلاس C. کیفیت فوق‌العاده و عملکرد بی‌نظیر. قیمت: 7500000 تومان. برند: Mercedes. دسته‌بندی: ترمز. 🛞"
+                        },
+                        {
+                            title: "کمک فنر عقب Porsche 911 - Bilstein",
+                            content: "کمک فنر عقب اصل آلمان برای پورشه 911. تکنولوژی پیشرفته و دوام بالا. قیمت: 15000000 تومان. برند: Porsche. دسته‌بندی: تعلیق. 🔧"
+                        }
+                    ];
+                    
+                    resolve(sampleWPProducts.slice(0, parseInt(postCount)));
+                }, 1500);
+            });
+        }
+
+        // توابع کمکی برای استخراج اطلاعات از محتوای وردپرس
+        function extractPriceFromContent(content) {
+            const priceMatch = content.match(/قیمت[:\s]*(\d+)/);
+            return priceMatch ? parseInt(priceMatch[1]) : null;
+        }
+
+        function extractEmojiFromContent(content) {
+            const emojiMatch = content.match(/([🔧🛞⚙️🔩🌡️⚡🔥🌊📡❄️🔗⚪🛢️⛽🔍])/);
+            return emojiMatch ? emojiMatch[1] : null;
+        }
+
+        function extractBrandFromContent(content) {
+            if (content.includes('BMW')) return 'BMW';
+            if (content.includes('Mercedes') || content.includes('مرسدس')) return 'Mercedes';
+            if (content.includes('Porsche') || content.includes('پورشه')) return 'Porsche';
+            return null;
+        }
+
+        function extractCategoryFromContent(content) {
+            if (content.includes('موتور') || content.includes('فیلتر روغن')) return 'engine';
+            if (content.includes('ترمز') || content.includes('لنت')) return 'brake';
+            if (content.includes('تعلیق') || content.includes('کمک فنر')) return 'suspension';
+            if (content.includes('جلوبندی')) return 'front_suspension';
+            if (content.includes('گیربکس')) return 'gearbox';
+            if (content.includes('برق') || content.includes('سنسور')) return 'electrical';
+            return 'engine';
+        }
+
+        // Product management helper functions
+        function duplicateProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const duplicatedProduct = {
+                ...product,
+                id: nextProductId++,
+                name: product.name + ' (کپی)',
+                stock: 0
+            };
+            
+            products.push(duplicatedProduct);
+            saveDataToStorage();
+            renderProducts();
+            showAdminProducts();
+            showNotification('محصول کپی شد');
+        }
+
+        function exportProducts() {
+            const dataStr = JSON.stringify(products, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'bsparts-products.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            showNotification('فایل JSON محصولات دانلود شد');
+        }
+
+        function importProducts() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedProducts = JSON.parse(e.target.result);
+                        if (Array.isArray(importedProducts)) {
+                            // اضافه کردن ID جدید به محصولات وارد شده
+                            importedProducts.forEach(product => {
+                                product.id = nextProductId++;
+                            });
+                            
+                            products.push(...importedProducts);
+                            saveDataToStorage();
+                            renderProducts();
+                            showAdminProducts();
+                            showNotification(`${importedProducts.length} محصول وارد شد`);
+                        } else {
+                            showNotification('فرمت فایل نامعتبر است');
+                        }
+                    } catch (error) {
+                        showNotification('خطا در خواندن فایل');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
         // Data persistence functions
         function loadDataFromStorage() {
             const savedProducts = localStorage.getItem('bsparts_products');
@@ -3120,7 +3359,7 @@ ${SHOP_NAME}`;
                     <div class="p-4 pt-0 space-y-2">
                         <div class="flex space-x-2 space-x-reverse">
                             <button onclick="addToCart(${product.id})" 
-                                    class="flex-1 apple-button text-white py-2 px-4 rounded-xl text-sm font-medium ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                    class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-xl text-sm font-medium hover:bg-blue-700 ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
                                     ${product.stock === 0 ? 'disabled' : ''}>
                                 افزودن به سبد
                             </button>
@@ -3325,7 +3564,7 @@ ${SHOP_NAME}`;
                             <p class="text-gray-600 text-sm">${product.price.toLocaleString()} تومان</p>
                         </div>
                         <div class="flex space-x-2 space-x-reverse">
-                            <button onclick="addToCart(${product.id})" class="apple-button text-white px-3 py-1 rounded text-sm">
+                            <button onclick="addToCart(${product.id})" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
                                 افزودن به سبد
                             </button>
                             <button onclick="toggleWishlist(${product.id})" class="text-red-500 hover:text-red-700">
@@ -3393,7 +3632,7 @@ ${SHOP_NAME}`;
 
                         <div class="flex space-x-4 space-x-reverse">
                             <button onclick="addToCart(${product.id}); closeProductDetail();" 
-                                    class="flex-1 apple-button text-white py-3 rounded-xl font-medium ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                    class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
                                     ${product.stock === 0 ? 'disabled' : ''}>
                                 افزودن به سبد خرید
                             </button>
@@ -3483,7 +3722,7 @@ ${SHOP_NAME}`;
                                     <td class="p-4 font-medium">عملیات</td>
                                     ${compareProducts.map(product => `
                                         <td class="p-4 text-center">
-                                            <button onclick="addToCart(${product.id})" class="apple-button text-white px-3 py-1 rounded text-sm">
+                                            <button onclick="addToCart(${product.id})" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
                                                 افزودن به سبد
                                             </button>
                                         </td>
@@ -3656,7 +3895,5 @@ ${SHOP_NAME}`;
             scrollToProducts();
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981072bf071e0b3a',t:'MTc1ODE5NDM2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981a5e7b9247d266',t:'MTc1ODI5ODM5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
